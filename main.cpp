@@ -26,6 +26,7 @@ int main() {
 	std::cin >> diffSelection;
 
 	Difficulty gameBoard(diffSelection);
+	std::cin.ignore();
 
 	std::cout << "Game Mode: " << gameBoard.getDiff() << std::endl;
 	int gameRounds = gameBoard.getRounds();
@@ -34,6 +35,7 @@ int main() {
 
 	while (gameRounds > 0) {
 		gameBoard.printBoard(emptyBoard);
+		userNums.clear();
 
 		for (auto i : previousRowsCols) {
 			gameBoard.updateBoard(i.first, i.second);
@@ -49,7 +51,6 @@ int main() {
 		gameBoard.printBoard(emptyBoard);
 
 		std::cout << "Enter the pattern" << std::endl;
-		std::cin.ignore();
 		std::getline(std::cin, inputNums);
 		std::stringstream allNums(inputNums);
 
