@@ -21,54 +21,72 @@ void Board::updateSize() {
 	}
 }
 
+// Updates the board element to be true
+// int row: index of row
+// int col: index of column
 void Board::updateBoard(int row, int col) {
-	resetBoard();
+	// resets the board to be all false first
+	resetBoard();	// this makes it so only one number is shown at a time
+
 	board[row][col] = true;
-	calculatedNum = calcNum(row, col);
-	displayNums.push_back(calculatedNum);
+
+	calculatedNum = calcNum(row, col);	// calculates the number to be displayed
+	displayNums.push_back(calculatedNum);	// puts the number in the displayNums vector
 }
 
+// Resets the board vector so all elements are false
 void Board::resetBoard() {
 	board.assign(boardSize, std::vector<bool>(boardSize, false));
 }
 
+// Calculates the number at the passed index
+// int row: index of row
+// int col: index of column
 int Board::calcNum(int row, int col) {
 	return (row * boardSize) + col + 1;
 }
 
 // Prints the current board
+// bool boardState: boolean from enum in main
+	// true displays the board with chosen number
+	// false displays the board with all X elements
 void Board::printBoard(bool boardState) {
-	std::cout << "\033[2J\033[1;1H";
+	std::cout << "\033[2J\033[1;1H";	// clears the screen so only the current board is shown
 
 	if (boardState) {
-		for (int i = 0; i < board.size(); i++) {
-			for (int j = 0; j < board[i].size(); j++) {
+		for (int i = 0; i < board.size(); i++) {	// rows
+			for (int j = 0; j < board[i].size(); j++) {	//columns
 				if (board[i][j]) {
-					std::cout << calculatedNum << "\t";
+					std::cout << calculatedNum << "\t";	// calculated right before printBoard is called
 				}
 				else {
-					std::cout << "X" << "\t";
+					std::cout << "X" << "\t";	// print X if element is still false
 				}
 			}
 			std::cout << std::endl;
 		}
 	}
-	else {
+	else {	// don't printed calculated num 
 		for (int i = 0; i < board.size(); i++) {
 			for (int j = 0; j < board[i].size(); j++) {
-				std::cout << "X" << "\t";
+				std::cout << "X" << "\t";	// shows a fully empty board in between each number
 			}
 			std::cout << std::endl;
 		}
 	}
 }
 
+// Checks the user input against the current vector of ints for the round
+// vector<int> userGuess: tokenized ints from user input
 bool Board::checkGuess(std::vector<int> userGuess) {
-	bool guessResult = false;
+	bool guessResult = false;	// init to false
 	if (displayNums == userGuess) {
-		guessResult = true;
+		guessResult = true;	// flip if true
 	}
-	displayNums.clear();
+	// clear the vector of current round numbers
+	// previous numbers are appended again each round instead of keeping track of previous rounds
+	// allows for duplicates within the same game
+	displayNums.clear();	
 	return (guessResult);
 }
 
