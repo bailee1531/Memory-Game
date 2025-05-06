@@ -15,6 +15,7 @@ enum Board_State {
 int main() {
 	int diffSelection = 0;
 	int inputNumInt = 0;
+	bool roundResult = false;
 	std::string inputNums, individualNums;
 	std::vector<int> userNums;
 	std::vector<std::pair<int, int>> previousRowsCols;
@@ -59,7 +60,9 @@ int main() {
 			userNums.push_back(inputNumInt);
 		}
 
-		if (gameBoard.checkGuess(userNums) && gameRounds > 1) {
+		roundResult = gameBoard.checkGuess(userNums);
+
+		if (roundResult && gameRounds > 1) {
 			std::cout << "Correct! Moving on to the next round." << std::endl;
 			previousRowsCols.push_back(std::make_pair(randRow, randCol));
 			randRow = rand() % gameBoard.getSize();
@@ -67,7 +70,7 @@ int main() {
 			gameRounds--;
 			Sleep(5000);
 		}
-		else if (gameBoard.checkGuess(userNums) && gameRounds <= 1) {
+		else if (roundResult && gameRounds <= 1) {
 			std::cout << "Correct! You have completed the game." << std::endl;
 			exit(0);
 		}
