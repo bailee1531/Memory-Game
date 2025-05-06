@@ -7,12 +7,18 @@ class Board {
 public:
 	Board();
 	~Board();
-	void printBoard();
+	int getSize();
+	void printBoard(bool state);
+	void updateBoard(int row, int col);
+	bool checkGuess(std::vector<int> guesses);
 
 protected:
 	int boardSize = 2;
 	int depth = 1;
+	int calculatedNum = 0;
 	std::vector<std::vector<bool>> board;
-	int getSize();
-	void updateBoard();
+	std::vector<int> displayNums;
+	void updateSize();
+	void resetBoard();
+	int calcNum(int rowIndex, int colIndex);
 };
